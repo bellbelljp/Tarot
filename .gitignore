@@ -25,6 +25,9 @@ Assets/AppMain/Objects/Fonts
 Assets/AppMain/Objects/Fonts.meta
 Assets/AppMain/Resources/Fonts
 Assets/AppMain/Resources/Fonts.meta
+Assets/AppMain/Scripts/System/Secret.cs
+Assets/AppMain/Resources/Cards
+Assets/AppMain/Resources/Cards.meta
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
