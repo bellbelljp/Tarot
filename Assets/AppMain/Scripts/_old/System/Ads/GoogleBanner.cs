@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 //using GoogleMobileAds.Api;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class GoogleBanner : MonoBehaviour
 	{

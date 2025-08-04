@@ -7,7 +7,7 @@ using System;
 using System.Globalization;
 using Cysharp.Threading.Tasks;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SaveData : Singleton<SaveData>
 	{

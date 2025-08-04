@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 //TODO:キャンセル処理やる
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SceneBase : MonoBehaviour
 	{

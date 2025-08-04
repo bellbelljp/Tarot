@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine.Events;
 using Cysharp.Threading.Tasks;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	[RequireComponent(typeof(CanvasGroup))]
 	public class UITransition : MonoBehaviour
@@ -38,6 +38,8 @@ namespace JourneysOfRealPeople
 		[SerializeField] TransitionParam m_scale = new TransitionParam() { IsActive = false, In = Vector2.zero, Out = Vector2.zero};
 		// スライドの設定値
 		[SerializeField] TransitionParam m_slideX = new TransitionParam() { IsActive = false, In = Vector2.zero, Out = Vector2.zero };
+		// スライドの設定値
+		[SerializeField] TransitionParam m_slideY = new TransitionParam() { IsActive = false, In = Vector2.zero, Out = Vector2.zero };
 		// 遷移時間
 		[SerializeField] float m_duration = 0.5f;
 
@@ -77,6 +79,9 @@ namespace JourneysOfRealPeople
 		/// <summary>トランジションIn</summary>
 		public void TransitionIn(UnityAction onCompleted = null)
 		{
+			if (this.gameObject.name == "Cards")
+				Debug.Log("フェードイン");
+
 			if (m_inSequence != null)
 			{
 				m_inSequence.Kill();
@@ -114,6 +119,16 @@ namespace JourneysOfRealPeople
 
 				m_inSequence.Join(
 					Rect.DOAnchorPosX(current.x, m_duration, true).SetLink(gameObject));
+			}
+
+			if (m_slideY.IsActive == true)
+			{
+				Canvas.alpha = 1;
+				var current = new Vector3(m_slideY.Now.x, m_slideY.Now.y);
+				Rect.anchoredPosition = new Vector3(m_slideY.In.x, m_slideY.In.y);
+
+				m_inSequence.Join(
+					Rect.DOAnchorPosY(current.y, m_duration, true).SetLink(gameObject));
 			}
 
 			m_inSequence
@@ -159,6 +174,16 @@ namespace JourneysOfRealPeople
 				var current = new Vector3(m_slideX.Now.x, m_slideX.Now.y);
 				m_inSequence.Join(
 					Rect.DOAnchorPosX(m_slideX.Out.x, m_duration, true)
+					.SetLink(gameObject))
+					.OnComplete(() => Rect.anchoredPosition = current);
+			}
+
+			if (m_slideY.IsActive == true)
+			{
+				Canvas.alpha = 1;
+				var current = new Vector3(m_slideY.Now.x, m_slideY.Now.y);
+				m_inSequence.Join(
+					Rect.DOAnchorPosY(m_slideY.Out.y, m_duration, true)
 					.SetLink(gameObject))
 					.OnComplete(() => Rect.anchoredPosition = current);
 			}

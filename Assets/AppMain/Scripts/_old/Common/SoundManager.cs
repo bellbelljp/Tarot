@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using System;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SoundManager : Singleton<SoundManager>
 	{

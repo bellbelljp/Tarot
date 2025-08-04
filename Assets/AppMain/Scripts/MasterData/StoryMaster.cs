@@ -7,7 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Unity.VisualScripting;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class StoryMaster : Singleton<StoryMaster>
 	{

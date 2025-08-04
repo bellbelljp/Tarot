@@ -4,7 +4,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using System;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class BasePopup : MonoBehaviour
 	{

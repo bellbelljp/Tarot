@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class ButtonEx : Button
 	{

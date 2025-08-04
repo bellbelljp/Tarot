@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class ChapterMaster : Singleton<ChapterMaster>
 	{

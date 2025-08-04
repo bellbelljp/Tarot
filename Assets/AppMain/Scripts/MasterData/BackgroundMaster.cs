@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class BackgroundMaster : Singleton<BackgroundMaster>
 	{

@@ -1,4 +1,4 @@
-﻿namespace JourneysOfRealPeople
+﻿namespace Tarot
 {
 	public static class Language
 	{

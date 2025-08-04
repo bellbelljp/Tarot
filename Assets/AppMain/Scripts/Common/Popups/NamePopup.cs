@@ -5,7 +5,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using System.Diagnostics;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class NamePopup : CommonPopup
 	{

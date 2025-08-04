@@ -2,7 +2,7 @@
 using UnityEngine;
 using TMPro;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SecretStoryPopup : CommonPopup
 	{

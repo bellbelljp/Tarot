@@ -2,7 +2,7 @@
 //using GoogleMobileAds.Api;
 using System;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class GoogleReward : MonoBehaviour
 	{

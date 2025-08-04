@@ -1,8 +1,8 @@
-using System;
+﻿using System;
 using TMPro;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class CommonPopupSelect : CommonPopup
 	{

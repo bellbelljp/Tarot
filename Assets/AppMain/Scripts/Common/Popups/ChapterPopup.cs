@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Threading;
 using System;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class ChapterPopup : CommonPopup
 	{

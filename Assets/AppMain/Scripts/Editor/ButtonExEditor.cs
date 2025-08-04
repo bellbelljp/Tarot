@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	[CustomEditor(typeof(ButtonEx))]
 	public class ButtonExEditor : UnityEditor.UI.ButtonEditor

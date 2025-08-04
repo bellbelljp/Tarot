@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 //using GoogleMobileAds.Api;
 //using Steamworks;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SetUpInitializer : MonoBehaviour
 	{

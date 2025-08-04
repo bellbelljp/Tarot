@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	/// <summary>Googleスプレッドシートから読み込み</summary>
 	public class SpreadSheetReader : Singleton<SpreadSheetReader>

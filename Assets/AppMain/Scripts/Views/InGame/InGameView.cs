@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class InGameView : ViewBase
 	{
@@ -31,7 +31,7 @@ namespace JourneysOfRealPeople
 				return;
 
 			m_isMoving = true;
-			ChangeView(ViewName.Sample, m_cts.Token, () => m_isMoving = false);
+			ChangeView(ViewName.Title, m_cts.Token, () => m_isMoving = false);
 		}
 	}
 }

@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEditor.Overlays;
 using UnityEditor.Localization.Plugins.XLIFF.V12;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class TalkWindow : MonoBehaviour
 	{

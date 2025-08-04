@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public abstract class Singleton<T> : MonoBehaviour where T : Singleton<T>
 	{

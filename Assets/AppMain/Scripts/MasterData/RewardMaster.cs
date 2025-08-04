@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class RewardMaster : Singleton<RewardMaster>
 	{

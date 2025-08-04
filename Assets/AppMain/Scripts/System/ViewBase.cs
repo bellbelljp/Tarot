@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class ViewBase : MonoBehaviour
 	{
@@ -44,7 +44,7 @@ namespace JourneysOfRealPeople
 		{
 			try
 			{
-				await Scene.ChangeView(viewName, csdef.Phase.SELEMONY, token);
+				await Scene.ChangeView(viewName, 0, token);
 			}
 			catch (OperationCanceledException e)
 			{

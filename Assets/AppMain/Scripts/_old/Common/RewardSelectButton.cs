@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class RewardSelectButton : MonoBehaviour
 	{

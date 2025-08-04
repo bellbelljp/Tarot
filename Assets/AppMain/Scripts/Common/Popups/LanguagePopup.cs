@@ -2,7 +2,7 @@
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class LanguagePopup : CommonPopup
 	{

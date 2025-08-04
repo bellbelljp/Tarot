@@ -3,7 +3,7 @@ using System;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class CommonPopup : MonoBehaviour
 	{

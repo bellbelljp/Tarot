@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Localization.Settings;
 using Cysharp.Threading.Tasks;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public static class StringEx
 	{

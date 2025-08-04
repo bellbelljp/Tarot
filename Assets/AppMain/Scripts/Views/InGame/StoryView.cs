@@ -7,7 +7,7 @@ using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class StoryView : ViewBase
 	{

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class MyComponentMenu
 	{

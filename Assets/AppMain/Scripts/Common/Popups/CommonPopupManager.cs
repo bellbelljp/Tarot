@@ -2,7 +2,7 @@
 using System;
 using System.Threading;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class CommonPopupManager : MonoBehaviour
 	{

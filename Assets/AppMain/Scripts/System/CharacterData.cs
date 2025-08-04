@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using JetBrains.Annotations;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class CharacterData : Singleton<SaveData>
 	{

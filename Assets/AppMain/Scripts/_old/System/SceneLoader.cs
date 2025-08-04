@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	/// <summary>
 	/// シーンをロードする

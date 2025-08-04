@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static UnityEditor.PlayerSettings;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class UISaveView : UISaveLoadViewBase
 	{

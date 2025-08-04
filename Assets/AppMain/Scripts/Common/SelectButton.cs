@@ -8,7 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	/// <summary>選択肢ボタン</summary>
 	public class SelectButton : MonoBehaviour

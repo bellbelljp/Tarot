@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Components;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	/// <summary>TmpFontAsset用のLocalizedAssetEvent</summary>
 	[AddComponentMenu("Localization/Asset/" + nameof(LocalizedTmpFontEvent))]

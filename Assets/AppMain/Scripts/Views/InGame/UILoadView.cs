@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class UILoadView : UISaveLoadViewBase
 	{
@@ -46,7 +46,7 @@ namespace JourneysOfRealPeople
 				m_slot.Load();
 				//UIGameView.Param.StartStory:0
 				//UIGameView.Param.FromEnding:1
-				await Scene.ChangeView(ViewName.Story, /*(int)UIGameView.Param.StartStory*/ 0, m_cts.Token);
+				await Scene.ChangeView(ViewName.Title, /*(int)UIGameView.Param.StartStory*/ 0, m_cts.Token);
 			}
 			catch (OperationCanceledException e)
 			{
@@ -71,7 +71,7 @@ namespace JourneysOfRealPeople
 					await Scene.ChangeScene(SceneName.InGame, m_cts.Token);
 					break;
 				case (int)ViewFrom.InGame:
-					await Scene.ChangeScene(SceneName.InGame, m_cts.Token, true, ViewName.Story);
+					//await Scene.ChangeScene(SceneName.InGame, m_cts.Token, true, ViewName.Story);
 					break;
 			}
 		}

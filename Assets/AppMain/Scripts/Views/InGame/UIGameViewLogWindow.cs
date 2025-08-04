@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class UIGameViewLogWindow : MonoBehaviour
 	{

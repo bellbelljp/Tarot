@@ -1,11 +1,11 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	[RequireComponent(typeof(RectTransform))]
 	public class SafeArea : MonoBehaviour
 	{
-		//ƒZ[ƒtƒGƒŠƒA‚É‡‚í‚¹‚½‚¢‰ÓŠ‚ğtrue‚É‚·‚éB
+		//ã‚»ãƒ¼ãƒ•ã‚¨ãƒªã‚¢ã«åˆã‚ã›ãŸã„ç®‡æ‰€ã‚’trueã«ã™ã‚‹ã€‚
 		[SerializeField] bool left;
 		[SerializeField] bool right;
 		[SerializeField] bool top;

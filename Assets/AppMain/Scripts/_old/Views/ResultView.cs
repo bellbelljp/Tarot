@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class ResultView : MonoBehaviour
 	{

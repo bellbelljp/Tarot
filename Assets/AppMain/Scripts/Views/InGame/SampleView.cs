@@ -2,7 +2,7 @@
 using System.Threading;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SampleView : ViewBase
 	{

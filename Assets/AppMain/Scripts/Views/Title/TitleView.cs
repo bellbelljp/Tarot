@@ -3,7 +3,7 @@ using System;
 using System.Threading;
 using UnityEngine;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class TitleView : ViewBase
 	{
@@ -28,11 +28,11 @@ namespace JourneysOfRealPeople
 		/// <summary>オプションボタン押下</summary>
 		public void OnClickOption()
 		{
-			if(m_isMoving)
-				return;
+			//if(m_isMoving)
+			//	return;
 
-			m_isMoving = true;
-			ChangeView(ViewName.Option, m_cts.Token, () => m_isMoving = false);
+			//m_isMoving = true;
+			//ChangeView(ViewName.Option, m_cts.Token, () => m_isMoving = false);
 		}
 
 		/// <summary>ゲームスタートボタン押下</summary>
@@ -42,7 +42,14 @@ namespace JourneysOfRealPeople
 				return;
 
 			m_isMoving = true;
-			ChangeScene(SceneName.InGame, m_cts.Token, () => m_isMoving = false);
+			ChangeView();
+		}
+
+		async void ChangeView()
+		{
+			await Scene.ChangeView(ViewName.Genre, 0, m_cts.Token);
+
+			m_isMoving = false;
 		}
 	}
 }

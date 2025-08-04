@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
 
-namespace JourneysOfRealPeople
+namespace Tarot
 {
 	public class SelectButtonDialog : MonoBehaviour
 	{
