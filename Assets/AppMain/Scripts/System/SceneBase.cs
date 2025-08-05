@@ -37,7 +37,6 @@ namespace Tarot
 				view.gameObject.SetActive(false);
 			}
 
-			SaveData.Instance.Reset();
 			m_cts = new CancellationTokenSource();
 
 			if (m_bgm != null)
