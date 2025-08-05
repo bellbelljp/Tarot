@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: 61c4c2a8b93d9e9469c195bd3df1ed44
+  m_SerializeEntries:
+  - m_GUID: 1033753521615bc48872b200857615ca
+    m_Address: Assets/AppMain/Addressable/Cards/08.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e3253ca0ea3f044181d028cde6bb5fb
+    m_Address: Assets/AppMain/Addressable/Cards/14.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 229e8efcaa81031478a132f2bd5a70db
+    m_Address: Assets/AppMain/Addressable/Cards/07.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 255647c13dd026044b7d451e5fd56459
+    m_Address: Assets/AppMain/Addressable/Cards/01.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 28d339e3f764eab4b96102c72069b67f
+    m_Address: Assets/AppMain/Addressable/Cards/11.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b65f4a3ddbff6e48ba2d98ea43aeb0b
+    m_Address: Assets/AppMain/Addressable/Cards/20.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 357e3ee61968d254bb766e111188ae10
+    m_Address: Assets/AppMain/Addressable/Cards/16.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e1bcdd379e6b0a4cae03b0e698dc9f8
+    m_Address: Assets/AppMain/Addressable/Cards/09.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52d9de428b1b6604689167eff4cff0c8
+    m_Address: Assets/AppMain/Addressable/Cards/19.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5736b431ac8f3be46959c7d6290ca0db
+    m_Address: Assets/AppMain/Addressable/Cards
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d89437b0beeda441b3097eaed4be830
+    m_Address: Assets/AppMain/Addressable/Cards/10.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6d54e9a168c6a3d4aad7ce318379b479
+    m_Address: Assets/AppMain/Addressable/Cards/15.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a45a42971eed72488b21d585189a20b
+    m_Address: Assets/AppMain/Addressable/Cards/back.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 814474b1532d3a642922cc68308f3290
+    m_Address: Assets/AppMain/Addressable/Cards/12.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9793267e9bd817c44b7c8f8fe47ba884
+    m_Address: Assets/AppMain/Addressable/Cards/17.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a7a285f822ce0e14f81199825b413cdd
+    m_Address: Assets/AppMain/Addressable/Cards/04.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aae711e1a82e93d4db2b209ad6e50e3c
+    m_Address: Assets/AppMain/Addressable/Cards/05.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bb72bb73f8ba4064596b2ed9d425695a
+    m_Address: Assets/AppMain/Addressable/Cards/99.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ce02b2bc760f59e43bfdfff1d57f982d
+    m_Address: Assets/AppMain/Addressable/Cards/06.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de7887500dff81140b33aafe1c5a62fc
+    m_Address: Assets/AppMain/Addressable/Cards/00.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: decbf499ca5e299428a2781b47c56f22
+    m_Address: Assets/AppMain/Addressable/Cards/13.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e41dd57c5e011984f9ec5f9a9e3705f7
+    m_Address: Assets/AppMain/Addressable/Cards/03.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e4e9bc32d50ba7842a06e3b221a3492a
+    m_Address: Assets/AppMain/Addressable/Cards/21.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e8c6ff4e3caf05f4c937304b3e20f630
+    m_Address: Assets/AppMain/Addressable/Cards/02.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f000ae5564d02f147ba17ac9f7e4265f
+    m_Address: Assets/AppMain/Addressable/Cards/18.png
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 94fb48da1b6755040b31998d4e34ff34, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0e089325f700ad74aab32efbbe9aebd7, type: 2}
+    - {fileID: 11400000, guid: b72d73f3b86927e42845c36914229028, type: 2}
