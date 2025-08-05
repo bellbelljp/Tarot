@@ -10,6 +10,7 @@ namespace Tarot
 {
 	public class SceneBase : MonoBehaviour
 	{
+		[SerializeField] AudioClip m_bgm = null;
 		// 初期ビューIndex
 		[SerializeField] protected int m_initialViewIndex = 0;
 		// フェードインアウトを行うか
@@ -38,6 +39,9 @@ namespace Tarot
 
 			SaveData.Instance.Reset();
 			m_cts = new CancellationTokenSource();
+
+			if (m_bgm != null)
+				SoundManager.Instance.PlayBGM(m_bgm);
 		}
 
 		protected virtual void Start()
@@ -178,6 +182,8 @@ namespace Tarot
 
 			if (m_loadIcon != null)
 				m_loadIcon.SetActive(false);
+
+			await SoundManager.Instance.StopBGMWithFadeOut();
 		}
 	}
 }

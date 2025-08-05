@@ -31,7 +31,7 @@ namespace Tarot
 		/// <summary>ビュークローズ時</summary>
 		public virtual async UniTask OnViewClosed()
 		{
-			await SoundManager.Instance.StopBGMWithFadeOut();
+			//await SoundManager.Instance.StopBGMWithFadeOut();
 		}
 
 		public virtual void SetParam(int parameter)
