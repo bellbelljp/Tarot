@@ -23,6 +23,7 @@ namespace Tarot
 		[SerializeField] UITransition m_startBtn = null;
 		[SerializeField] UITransition m_subExplainText = null;
 		[SerializeField] UITransition m_tarotBG = null;
+		[SerializeField] ShareToX m_shareToX = null;
 
 		[Header("シャッフルカード")]
 		[SerializeField] GameObject m_cardObj = null;
@@ -302,12 +303,9 @@ namespace Tarot
 				float randomZ = UnityEngine.Random.Range(-180f, 180f);
 				Quaternion randomRotation = Quaternion.Euler(0, 0, randomZ);
 
-				Debug.Log(string.Format("x:{0}, y:{1}", x, y));
 				var rect = card.GetComponent<RectTransform>();
 				card.GetComponent<RectTransform>().SetLocalPositionAndRotation(new Vector3(x, y, 1), randomRotation);
 				card.SetActive(true);
-
-				Debug.Log(string.Format("実際x:{0}, y:{1}", rect.sizeDelta.x, rect.sizeDelta.y));
 				m_cardList.Add(card);
 			}
 		}
@@ -375,6 +373,12 @@ namespace Tarot
 				image.transform.rotation = Quaternion.Euler(0, 0, 180f);
 
 			Debug.Log(string.Format("direction:{0}", direction));
+		}
+
+		/// <summary>シェアボタン</summary>
+		public void Share()
+		{
+			m_shareToX.Share();
 		}
 
 		public void Close()
