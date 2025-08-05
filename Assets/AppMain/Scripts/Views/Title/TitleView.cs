@@ -2,11 +2,13 @@
 using System;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Tarot
 {
 	public class TitleView : ViewBase
 	{
+		[SerializeField] Slider m_slider = null;
 		bool m_isMoving = false;
 		CancellationTokenSource m_cts = null;
 
@@ -17,22 +19,13 @@ namespace Tarot
 
 			m_isMoving = false;
 			m_cts = new CancellationTokenSource();
+			m_slider.value = SoundManager.Instance.BgmVolume;
 		}
 
 		/// <summary>ビュークローズ時</summary>
 		public async override UniTask OnViewClosed()
 		{
 			await base.OnViewClosed();
-		}
-
-		/// <summary>オプションボタン押下</summary>
-		public void OnClickOption()
-		{
-			//if(m_isMoving)
-			//	return;
-
-			//m_isMoving = true;
-			//ChangeView(ViewName.Option, m_cts.Token, () => m_isMoving = false);
 		}
 
 		/// <summary>ゲームスタートボタン押下</summary>
@@ -43,6 +36,11 @@ namespace Tarot
 
 			m_isMoving = true;
 			ChangeView();
+		}
+
+		public void SetBGMVolume(Slider slider)
+		{
+			SoundManager.Instance.SetBGMVolume(slider.value);
 		}
 
 		async void ChangeView()
