@@ -57,7 +57,7 @@ namespace Tarot
 				Debug.LogError($"例外: {e.Message}");
 			}
 
-			callback.Invoke();
+			callback?.Invoke();
 		}
 
 		/// <summary>Sceneを変更する</summary>

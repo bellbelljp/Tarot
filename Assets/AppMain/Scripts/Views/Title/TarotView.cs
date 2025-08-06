@@ -1,17 +1,15 @@
 ﻿using Cysharp.Threading.Tasks;
-using Cysharp.Threading.Tasks.Triggers;
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.Search;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
 namespace Tarot
 {
@@ -20,7 +18,7 @@ namespace Tarot
 		[SerializeField] UITransition m_explainText = null;
 		[SerializeField] ChatGPT m_chatGPT = null;
 		[SerializeField] GameObject m_blockTap = null;
-		[SerializeField] UITransition m_startBtn = null;
+		[SerializeField] UITransition m_startBtnTransition = null;
 		[SerializeField] UITransition m_subExplainText = null;
 		[SerializeField] UITransition m_tarotBG = null;
 		[SerializeField] ShareToX m_shareToX = null;
@@ -50,6 +48,7 @@ namespace Tarot
 		[Header("ボタン")]
 		[SerializeField] ButtonEx m_closeBtn = null;
 		[SerializeField] ButtonEx m_shareBtn = null;
+		[SerializeField] ButtonEx m_startBtn = null;
 
 		List<GameObject> m_cardList = new List<GameObject>();
 		const int CARD_NUM = 22;
@@ -77,12 +76,15 @@ namespace Tarot
 			"\nお願いします。";
 		async void OnEnable()
 		{
+			m_closeBtn.interactable = true;
+			m_shareBtn.interactable = true;
+			m_startBtn.interactable = true;
 			m_leftCardIndex =
 			m_centerCardIndex = 
 			m_rightCardIndex = -1;
 			m_blockTap.SetActive(true);
 			m_cardTransition.Canvas.alpha = 0;
-			m_startBtn.gameObject.SetActive(false);
+			m_startBtnTransition.gameObject.SetActive(false);
 			m_subExplainText.gameObject.SetActive(false);
 			m_tarotBG.gameObject.SetActive(false);
 			m_resultText.text = "ロード中";
@@ -96,8 +98,8 @@ namespace Tarot
 			await UniTask.Delay(TimeSpan.FromSeconds(1));
 
 			// スタートボタン表示
-			m_startBtn.gameObject.SetActive(true);
-			await m_startBtn.TransitionInWait();
+			m_startBtnTransition.gameObject.SetActive(true);
+			await m_startBtnTransition.TransitionInWait();
 
 			// 移動範囲
 			CanvasScaler canvasRect = Scene.GetComponent<CanvasScaler>();
@@ -122,6 +124,7 @@ namespace Tarot
 		/// <summary>スタートボタン押下</summary>
 		public void OnClickStartShaffle()
 		{
+			m_startBtn.interactable = false;
 			StartShaffle();
 		}
 
@@ -130,11 +133,11 @@ namespace Tarot
 			List<UniTask> tasks = new List<UniTask>();
 
 			tasks.Add(m_explainText.TransitionOutWait());
-			tasks.Add(m_startBtn.TransitionOutWait());
+			tasks.Add(m_startBtnTransition.TransitionOutWait());
 
 			await UniTask.WhenAll(tasks);
 			m_explainText.gameObject.SetActive(false);
-			m_startBtn.gameObject.SetActive(false);
+			m_startBtnTransition.gameObject.SetActive(false);
 
 			tasks = new List<UniTask>();
 			// 背景表示
@@ -222,6 +225,8 @@ namespace Tarot
 			foreach (var tra in m_resultTransition)
 				tasks.Add(tra.TransitionInWait());
 
+			m_blockTap.SetActive(true);
+
 			await UniTask.WhenAll(tasks);
 		}
 
@@ -249,7 +254,6 @@ namespace Tarot
 				centerDirection,
 				rightText,
 				rughtDirection);
-			Debug.Log(input);
 
 			// 非同期処理
 			_ = SendMessageToChatGPT(input);
@@ -266,7 +270,8 @@ namespace Tarot
 		async UniTask FadeOutCard(Card card)
 		{
 			await card.FadeOut();
-			m_blockTap.SetActive(false);
+			if(!SelectedThreeCards())
+				m_blockTap.SetActive(false);
 			card.gameObject.SetActive(false);
 		}
 
@@ -287,7 +292,6 @@ namespace Tarot
 
 				Destroy(child.gameObject);
 			}
-			Debug.Log($"m_halfWidth: {m_halfWidth}, m_halfHeight: {m_halfHeight}");
 
 			m_cardList = new List<GameObject>();
 			// カード生成
@@ -361,7 +365,7 @@ namespace Tarot
 			image.enabled = false;
 
 			var path = string.Format(CARD_PATH, value);
-			Sprite sp = Resources.Load<Sprite>(path);
+			var sp = Resources.Load<Sprite>(path);
 			if (sp != null)
 			{
 				image.sprite = sp;
@@ -371,18 +375,31 @@ namespace Tarot
 				image.transform.rotation = Quaternion.Euler(0, 0, 0);
 			else
 				image.transform.rotation = Quaternion.Euler(0, 0, 180f);
-
-			Debug.Log(string.Format("direction:{0}", direction));
 		}
 
 		/// <summary>シェアボタン</summary>
-		public void Share()
+		public void ClickToShare()
 		{
+			ShareToX();
+		}
+
+		async void ShareToX()
+		{
+			m_closeBtn.interactable = false;
+			m_shareBtn.interactable = false;
+
 			m_shareToX.Share();
+
+			await UniTask.Delay(TimeSpan.FromSeconds(0.5));
+
+			m_closeBtn.interactable = true;
+			m_shareBtn.interactable = true;
 		}
 
 		public void Close()
 		{
+			m_closeBtn.interactable = false;
+			m_shareBtn.interactable = false;
 			ChangeView();
 
 			m_leftResultTransition.TransitionOut();

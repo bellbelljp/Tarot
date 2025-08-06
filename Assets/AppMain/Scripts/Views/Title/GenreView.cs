@@ -1,12 +1,13 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Threading;
+using UnityEngine;
 
 namespace Tarot
 {
 	public class GenreView : ViewBase
 	{
-		bool m_isMoving = false;
+		[SerializeField] ButtonEx[] m_buttons = null;
 		CancellationTokenSource m_cts = null;
 
 		/// <summary>ビューオープン時</summary>
@@ -14,8 +15,9 @@ namespace Tarot
 		{
 			base.OnViewOpened();
 
-			m_isMoving = false;
 			m_cts = new CancellationTokenSource();
+			foreach (var btn in m_buttons)
+				btn.interactable = true;
 		}
 
 		/// <summary>ビュークローズ時</summary>
@@ -27,10 +29,8 @@ namespace Tarot
 		/// <summary>ジャンルクリック</summary>
 		public void ClickGenre(int index)
 		{
-			if (m_isMoving)
-				return;
-
-			m_isMoving = true;
+			foreach (var btn in m_buttons)
+				btn.interactable = false;
 
 			ChangeView(index);
 		}
@@ -39,18 +39,15 @@ namespace Tarot
 		async void ChangeView(int index)
 		{
 			await Scene.ChangeView(ViewName.Tarot, index, m_cts.Token);
-
-			m_isMoving = false;
 		}
 
 		/// <summary>戻るボタン押下</summary>
 		public void OnClickBack()
 		{
-			if (m_isMoving)
-				return;
+			foreach (var btn in m_buttons)
+				btn.interactable = false;
 
-			m_isMoving = true;
-			ChangeView(ViewName.Title, m_cts.Token, () => m_isMoving = false);
+			ChangeView(ViewName.Title, m_cts.Token, null);
 		}
 	}
 }
