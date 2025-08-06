@@ -79,9 +79,6 @@ namespace Tarot
 		/// <summary>トランジションIn</summary>
 		public void TransitionIn(UnityAction onCompleted = null)
 		{
-			if (this.gameObject.name == "Cards")
-				Debug.Log("フェードイン");
-
 			if (m_inSequence != null)
 			{
 				m_inSequence.Kill();
@@ -172,7 +169,7 @@ namespace Tarot
 			{
 				Canvas.alpha = 1;
 				var current = new Vector3(m_slideX.Now.x, m_slideX.Now.y);
-				m_inSequence.Join(
+				m_outSequence.Join(
 					Rect.DOAnchorPosX(m_slideX.Out.x, m_duration, true)
 					.SetLink(gameObject))
 					.OnComplete(() => Rect.anchoredPosition = current);
@@ -182,7 +179,7 @@ namespace Tarot
 			{
 				Canvas.alpha = 1;
 				var current = new Vector3(m_slideY.Now.x, m_slideY.Now.y);
-				m_inSequence.Join(
+				m_outSequence.Join(
 					Rect.DOAnchorPosY(m_slideY.Out.y, m_duration, true)
 					.SetLink(gameObject))
 					.OnComplete(() => Rect.anchoredPosition = current);
