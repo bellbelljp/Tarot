@@ -40,7 +40,7 @@ namespace Tarot
 		}
 
 		/// <summary>Viewを変更する</summary>
-		protected async void ChangeView(string viewName, CancellationToken token, Action callback)
+		public async void ChangeView(string viewName, CancellationToken token, Action callback)
 		{
 			try
 			{
@@ -81,12 +81,15 @@ namespace Tarot
 			callback.Invoke();
 		}
 
-		/// <summary>キャンセル処理を行い、以前のCancellationTokenSourceを破棄して新しいものを生成します。</summary>
+		/// <summary>以前のCTSを安全にキャンセル/破棄し、新しいものを生成します。</summary>
 		protected void CancelPreviousIfAny(ref CancellationTokenSource cts)
 		{
-			if (cts != null && !cts.IsCancellationRequested)
+			if (cts != null)
 			{
-				cts.Cancel();
+				if (!cts.IsCancellationRequested)
+				{
+					cts.Cancel();
+				}
 				cts.Dispose();
 			}
 			cts = new CancellationTokenSource();

@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 28403694}
+  - component: {fileID: 28403700}
   - component: {fileID: 28403698}
   - component: {fileID: 28403697}
   - component: {fileID: 28403699}
@@ -221,6 +222,19 @@ MonoBehaviour:
     Out: {x: 0, y: 0}
     Now: {x: 0, y: 0}
   m_duration: 1
+--- !u!114 &28403700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28403693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25cf6d7a369d95b45b94808b0445aefe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_view: {fileID: 28403698}
 --- !u!1 &65203176
 GameObject:
   m_ObjectHideFlags: 0
@@ -4782,7 +4796,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 28403698}
         m_TargetAssemblyTypeName: Tarot.TitleView, Assembly-CSharp
-        m_MethodName: SetBGMVolume
+        m_MethodName: ChangeBGMVolume
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 1608459027}
@@ -4973,6 +4987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1627125695}
+  - component: {fileID: 1627125701}
   - component: {fileID: 1627125699}
   - component: {fileID: 1627125698}
   - component: {fileID: 1627125700}
@@ -5073,6 +5088,19 @@ MonoBehaviour:
     Out: {x: 0, y: 0}
     Now: {x: 0, y: 0}
   m_duration: 1
+--- !u!114 &1627125701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1627125693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d13024d486ef746b4755d8189b97da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_view: {fileID: 1627125699}
 --- !u!1 &1791045240
 GameObject:
   m_ObjectHideFlags: 0
