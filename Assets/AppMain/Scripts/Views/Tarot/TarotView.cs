@@ -12,7 +12,7 @@ namespace Tarot
 {
 	public interface ITarotView
 	{
-
+		public void SetButtonInteractable(bool flg);
 	}
 
 	public class TarotView : ViewBase, ITarotView
@@ -23,7 +23,7 @@ namespace Tarot
 		[SerializeField] UITransition m_startBtnTransition = null;
 		[SerializeField] UITransition m_subExplainText = null;
 		[SerializeField] UITransition m_tarotBG = null;
-		[SerializeField] ShareToX m_shareToX = null;
+		//[SerializeField] ShareToX m_shareToX = null;
 
 		[Header("シャッフルカード")]
 		[SerializeField] GameObject m_cardObj = null;
@@ -54,7 +54,7 @@ namespace Tarot
 
 		List<GameObject> m_cardList = new List<GameObject>();
 		const int CARD_NUM = 22;
-		const string CARD_PATH = "Cards/{0:d2}";
+		//const string CARD_PATH = "Cards/{0:d2}";
 		CancellationTokenSource m_cts = new CancellationTokenSource();
 		float m_halfWidth = 0;
 		float m_halfHeight = 0;
@@ -86,8 +86,7 @@ namespace Tarot
 
 		async void OnEnable()
 		{
-			m_closeBtn.interactable = true;
-			m_shareBtn.interactable = true;
+			SetButtonInteractable(true);
 			m_startBtn.interactable = true;
 			m_leftCardIndex =
 			m_centerCardIndex = 
@@ -209,7 +208,7 @@ namespace Tarot
 		async void Result()
 		{
 			// 先にAIに送っておく
-			SendChatGPT();
+			await SendChatGPT();
 
 			List<UniTask> tasks = new List<UniTask>();
 			tasks.Add(m_subExplainText.TransitionOutWait());
@@ -241,7 +240,7 @@ namespace Tarot
 		}
 
 
-		public void SendChatGPT()
+		public async UniTask SendChatGPT()
 		{
 			var genre = CardName.GetGenre(m_genre);
 			var leftText = CardName.GetTarotName(m_leftCardIndex);
@@ -266,14 +265,7 @@ namespace Tarot
 				rughtDirection);
 
 			// 非同期処理
-			_ = SendMessageToChatGPT(input);
-		}
-
-		/// <summary>ChatGPTにメッセージを送るAPI</summary>
-		async Task SendMessageToChatGPT(string msg)
-		{
-			string reply = await m_chatGPT.SendMessageToGPT(msg);
-			m_resultText.text = reply;
+			m_resultText.text = await m_presenter.SendMessageToChatGPT(input);
 		}
 
 		/// <summary>カードをフェードアウトさせる</summary>
@@ -373,9 +365,7 @@ namespace Tarot
 		void LoadCardImage(int value, Image image, bool direction)
 		{
 			image.enabled = false;
-
-			var path = string.Format(CARD_PATH, value);
-			var sp = Resources.Load<Sprite>(path);
+			var sp = m_presenter.LoadCardImage(value);
 			if (sp != null)
 			{
 				image.sprite = sp;
@@ -388,33 +378,26 @@ namespace Tarot
 		}
 
 		/// <summary>シェアボタン</summary>
-		public void ClickToShare()
+		public void ClickToShare() => ShareToX().Forget();
+		async UniTask ShareToX()
 		{
-			ShareToX();
-		}
-
-		async void ShareToX()
-		{
-			m_closeBtn.interactable = false;
-			m_shareBtn.interactable = false;
-
-			m_shareToX.Share();
-
-			await UniTask.Delay(TimeSpan.FromSeconds(0.5));
-
-			m_closeBtn.interactable = true;
-			m_shareBtn.interactable = true;
+			await m_presenter.ShareToX();
 		}
 
 		public void Close()
 		{
-			m_closeBtn.interactable = false;
-			m_shareBtn.interactable = false;
+			SetButtonInteractable(false);
 			ChangeView();
 
 			m_leftResultTransition.TransitionOut();
 			m_centerResultTransition.TransitionOut();
 			m_rightResultTransition.TransitionOut(); 
+		}
+
+		public void SetButtonInteractable(bool flg)
+		{
+			m_closeBtn.interactable = flg;
+			m_shareBtn.interactable = flg;
 		}
 
 		async void ChangeView()

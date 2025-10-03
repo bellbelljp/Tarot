@@ -2241,8 +2241,6 @@ GameObject:
   - component: {fileID: 794551154}
   - component: {fileID: 794551157}
   - component: {fileID: 794551158}
-  - component: {fileID: 794551159}
-  - component: {fileID: 794551160}
   m_Layer: 5
   m_Name: TarotView
   m_TagString: Untagged
@@ -2265,12 +2263,10 @@ MonoBehaviour:
   m_bgm: {fileID: 0}
   Scene: {fileID: 1057482703}
   m_explainText: {fileID: 1129988549}
-  m_chatGPT: {fileID: 794551159}
   m_blockTap: {fileID: 1838308400}
   m_startBtnTransition: {fileID: 1063703384}
   m_subExplainText: {fileID: 1909415941}
   m_tarotBG: {fileID: 783683531}
-  m_shareToX: {fileID: 794551160}
   m_cardObj: {fileID: 66537864}
   m_cardPos: {fileID: 2048897657}
   m_cardTransition: {fileID: 2048897658}
@@ -2368,30 +2364,6 @@ MonoBehaviour:
     Out: {x: 0, y: 0}
     Now: {x: 0, y: 0}
   m_duration: 1
---- !u!114 &794551159
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794551153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329458b671219d44689e6274cb6a7761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &794551160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 794551153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6441beb7fb8bf17459a4aee0e55057ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &794551161
 MonoBehaviour:
   m_ObjectHideFlags: 0

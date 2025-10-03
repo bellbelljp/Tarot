@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Tarot
 {
-	public class ShareToX : MonoBehaviour
+	public class ShareToX
 	{
 		// JavaScript関数のインポート（WebGLでのみ有効）
 		[DllImport("__Internal")]

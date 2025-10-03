@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Tarot
 {
-	public class ChatGPT : MonoBehaviour
+	public class ChatGPT
 	{
 		private string apiKey = Secret.AI_API_KEY; // OpenAIのAPIキー
 		private string model = "gpt-3.5-turbo";
