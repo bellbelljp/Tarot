@@ -1,25 +1,33 @@
 ﻿using Cysharp.Threading.Tasks;
-using System;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Tarot
 {
-	public class TitleView : ViewBase
+	public interface ITitleView
+	{
+		void OnClickStart();
+	}
+
+	public class TitleView : ViewBase, ITitleView
 	{
 		[SerializeField] Slider m_slider = null;
-		bool m_isMoving = false;
 		CancellationTokenSource m_cts = null;
+		TitlePresenter m_presenter = null;
+
+		public void SetPresenter(TitlePresenter presenter)
+		{
+			m_presenter = presenter;
+		}
 
 		/// <summary>ビューオープン時</summary>
 		public override void OnViewOpened()
 		{
 			base.OnViewOpened();
 
-			m_isMoving = false;
 			m_cts = new CancellationTokenSource();
-			m_slider.value = SoundManager.Instance.BgmVolume;
+			m_slider.value =  m_presenter.GetVolume();
 		}
 
 		/// <summary>ビュークローズ時</summary>
@@ -36,36 +44,12 @@ namespace Tarot
 		/// <summary>ゲームスタートボタン押下</summary>
 		public void OnClickStart()
 		{
-			if (m_isMoving)
-				return;
-
-			m_isMoving = true;
-			ChangeViewAsync();
+			m_presenter.StartGame(Scene, m_cts.Token);
 		}
 
-		public void SetBGMVolume(Slider slider)
+		public void ChangeBGMVolume(Slider slider)
 		{
-			SoundManager.Instance.SetBGMVolume(slider.value);
-		}
-
-		async void ChangeViewAsync()
-		{
-			try
-			{
-				await Scene.ChangeView(ViewName.Genre, 0, m_cts.Token);
-			}
-			catch (OperationCanceledException)
-			{
-				// キャンセルされた場合は何もしない
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError($"ビュー変更中にエラーが発生しました: {ex.Message}");
-			}
-			finally
-			{
-				m_isMoving = false;
-			}
+			m_presenter.ChangeBGMVolume(slider.value);
 		}
 	}
 }
