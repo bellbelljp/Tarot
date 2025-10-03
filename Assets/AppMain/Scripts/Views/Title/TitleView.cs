@@ -25,6 +25,11 @@ namespace Tarot
 		/// <summary>ビュークローズ時</summary>
 		public async override UniTask OnViewClosed()
 		{
+			// CancellationTokenSourceを適切に破棄
+			m_cts?.Cancel();
+			m_cts?.Dispose();
+			m_cts = null;
+			
 			await base.OnViewClosed();
 		}
 
@@ -35,7 +40,7 @@ namespace Tarot
 				return;
 
 			m_isMoving = true;
-			ChangeView();
+			ChangeViewAsync();
 		}
 
 		public void SetBGMVolume(Slider slider)
@@ -43,11 +48,24 @@ namespace Tarot
 			SoundManager.Instance.SetBGMVolume(slider.value);
 		}
 
-		async void ChangeView()
+		async void ChangeViewAsync()
 		{
-			await Scene.ChangeView(ViewName.Genre, 0, m_cts.Token);
-
-			m_isMoving = false;
+			try
+			{
+				await Scene.ChangeView(ViewName.Genre, 0, m_cts.Token);
+			}
+			catch (OperationCanceledException)
+			{
+				// キャンセルされた場合は何もしない
+			}
+			catch (Exception ex)
+			{
+				Debug.LogError($"ビュー変更中にエラーが発生しました: {ex.Message}");
+			}
+			finally
+			{
+				m_isMoving = false;
+			}
 		}
 	}
 }
