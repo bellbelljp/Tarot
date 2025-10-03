@@ -33,12 +33,15 @@ namespace Tarot
 		/// <summary>ビュークローズ時</summary>
 		public async override UniTask OnViewClosed()
 		{
+			await base.OnViewClosed();
+		}
+
+		void OnDisable()
+		{
 			// CancellationTokenSourceを適切に破棄
 			m_cts?.Cancel();
 			m_cts?.Dispose();
 			m_cts = null;
-			
-			await base.OnViewClosed();
 		}
 
 		/// <summary>ゲームスタートボタン押下</summary>
