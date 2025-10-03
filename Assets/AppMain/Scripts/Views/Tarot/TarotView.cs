@@ -2,18 +2,20 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
 
 namespace Tarot
 {
-	public class TarotView : ViewBase
+	public interface ITarotView
+	{
+
+	}
+
+	public class TarotView : ViewBase, ITarotView
 	{
 		[SerializeField] UITransition m_explainText = null;
 		[SerializeField] ChatGPT m_chatGPT = null;
@@ -74,6 +76,14 @@ namespace Tarot
 			"\n【現在】{3}({4})" +
 			"\n【未来】{5}({6})" +
 			"\nお願いします。";
+
+		TarotPresenter m_presenter = null;
+
+		public void SetPresenter(TarotPresenter presenter)
+		{
+			m_presenter = presenter;
+		}
+
 		async void OnEnable()
 		{
 			m_closeBtn.interactable = true;
