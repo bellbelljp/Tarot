@@ -1,9 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,6 +13,8 @@ namespace Tarot
 		public void SetButtonInteractable(bool flg);
 		public void DestroyCards();
 		public GameObject InstantiateCard();
+		public void SetResultText(string genre, string past, string now, string futer);
+		public void SetCardImage(int leftIndex, int centerIndex, int rightIndex, bool leftDir, bool centerDir, bool rightDir);
 	}
 
 	public class TarotView : ViewBase, ITarotView
@@ -25,7 +25,6 @@ namespace Tarot
 		[SerializeField] UITransition m_startBtnTransition = null;
 		[SerializeField] UITransition m_subExplainText = null;
 		[SerializeField] UITransition m_tarotBG = null;
-		//[SerializeField] ShareToX m_shareToX = null;
 
 		[Header("シャッフルカード")]
 		[SerializeField] GameObject m_cardObj = null;
@@ -54,46 +53,20 @@ namespace Tarot
 		[SerializeField] ButtonEx m_shareBtn = null;
 		[SerializeField] ButtonEx m_startBtn = null;
 
-		List<GameObject> m_cardList = new List<GameObject>();
-		const int CARD_NUM = 22;
-		//const string CARD_PATH = "Cards/{0:d2}";
 		CancellationTokenSource m_cts = new CancellationTokenSource();
-		//float m_halfWidth = 0;
-		//float m_halfHeight = 0;
-		int m_leftCardIndex = -1;
-		int m_centerCardIndex = -1;
-		int m_rightCardIndex = -1;
-		bool m_leftCardDirection = true;
-		bool m_centerCardDirection = true;
-		bool m_rightCardDirection = true;
-
-		int m_genre = -1;
-
-		//bool m_isSelection = false;
-
-		const string AI_SEND_MESSAGE = "あなたは有能な占い師です。" +
-			"\n以下の条件に基づき、相談者に向けた占いの結果を「過去・現在・未来」の３つの流れと、最後にアドバイスとして簡潔に320文字以内でまとめてください。" +
-			"\n【相談内容】{0}" +
-			"\n【過去】{1}({2})" +
-			"\n【現在】{3}({4})" +
-			"\n【未来】{5}({6})" +
-			"\nお願いします。";
-
 		TarotPresenter m_presenter = null;
 
 		public void SetPresenter(TarotPresenter presenter)
 		{
 			m_presenter = presenter;
+			m_presenter.Init();
 		}
 
 		async void OnEnable()
 		{
 			SetButtonInteractable(true);
 			m_startBtn.interactable = true;
-			m_leftCardIndex =
-			m_centerCardIndex = 
-			m_rightCardIndex = -1;
-			m_blockTap.SetActive(true);
+			BlockTapActive(true);
 			m_cardTransition.Canvas.alpha = 0;
 			m_startBtnTransition.gameObject.SetActive(false);
 			m_subExplainText.gameObject.SetActive(false);
@@ -118,7 +91,6 @@ namespace Tarot
 
 			// カード作成
 			m_presenter.CreateCards();
-			//CreateCards();
 		}
 
 		private void OnDisable()
@@ -129,8 +101,6 @@ namespace Tarot
 
 		public override void SetParam(int genre)
 		{
-			//FIXME
-			m_genre = genre;
 			m_presenter.SetGenre(genre);
 		}
 
@@ -167,60 +137,35 @@ namespace Tarot
 			m_subExplainText.gameObject.SetActive(true);
 			await m_subExplainText.TransitionInWait();
 
-			m_blockTap.SetActive(false);
+			BlockTapActive(false);
 		}
 
 		/// <summary>シャッフルしたカードをクリック</summary>
 		public void OnClickCard(Card card)
 		{
-			m_blockTap.SetActive(true);
+			BlockTapActive(true);
 
-			bool isNormal = false;
-			var rectTransform = card.GetComponent<RectTransform>();
-			if (m_leftCardIndex == -1)
-			{
-				m_leftCardIndex = card.CardIndex;
-				isNormal = (rectTransform.eulerAngles.z <= 90 && rectTransform.eulerAngles.z > -90) ||
-					(rectTransform.eulerAngles.z >= 270 && rectTransform.eulerAngles.z < 450);
-				m_leftCardDirection = isNormal;
-			}
-			else if(m_centerCardIndex == -1)
-			{
-				m_centerCardIndex = card.CardIndex;
-				isNormal = (rectTransform.eulerAngles.z <= 90 && rectTransform.eulerAngles.z > -90) ||
-					(rectTransform.eulerAngles.z >= 270 && rectTransform.eulerAngles.z < 450);
-				m_centerCardDirection = isNormal;
-			}
-			else if(m_rightCardIndex == -1)
-			{
-				m_rightCardIndex = card.CardIndex;
-				isNormal = (rectTransform.eulerAngles.z <= 90 && rectTransform.eulerAngles.z > -90) ||
-					(rectTransform.eulerAngles.z >= 270 && rectTransform.eulerAngles.z < 450);
-				m_rightCardDirection = isNormal;
-			}
+			m_presenter.OnClickCard(card);
 
-			AfterSelectCard(card);
+			AfterSelectCard(card).Forget();
 		}
 
 		/// <summary>カードを選んだあとの処理</summary>
-		async void AfterSelectCard(Card card)
+		async UniTask AfterSelectCard(Card card)
 		{
 			await FadeOutCard(card);
 			
 			// ３枚選んだら
-			if (SelectedThreeCards())
+			if (m_presenter.SelectedThreeCards())
 			{
-				Result();
+				await Result();
 			}
 		}
 
-		async void Result()
+		async UniTask Result()
 		{
-			// 先にAIに送っておく
-			//await SendChatGPT();
-
 			List<UniTask> tasks = new List<UniTask>();
-			tasks.Add(SendChatGPT());
+			tasks.Add(SendingAndReceivingChatGPT());
 			tasks.Add(m_subExplainText.TransitionOutWait());
 			tasks.Add(m_cardTransition.TransitionOutWait());
 			await UniTask.WhenAll(tasks);
@@ -228,11 +173,18 @@ namespace Tarot
 			await ShowResult();
 		}
 
+		/// <summary>ChatGPTに送受信</summary>
+		public async UniTask SendingAndReceivingChatGPT()
+		{
+			// 非同期処理
+			m_resultText.text = await m_presenter.SendingAndReceivingChatGPT();
+		}
+
 		/// <summary>リザルト</summary>
 		async UniTask ShowResult()
 		{
 			// カード画像セット
-			SetCardImage();
+			m_presenter.SetResultCardImage();
 
 			// カード表示演出
 			await m_leftResultTransition.TransitionInWait();
@@ -244,55 +196,30 @@ namespace Tarot
 			foreach (var tra in m_resultTransition)
 				tasks.Add(tra.TransitionInWait());
 
-			m_blockTap.SetActive(true);
+			BlockTapActive(true);
 
 			await UniTask.WhenAll(tasks);
 		}
 
-
-		public async UniTask SendChatGPT()
+		/// <summary>結果テキストセット</summary>
+		public void SetResultText(string genre, string past, string now, string futer)
 		{
-			var genre = CardName.GetGenre(m_genre);
-			var leftText = CardName.GetTarotName(m_leftCardIndex);
-			var leftDirection = CardName.GetDirection(m_leftCardDirection);
-			var centerText = CardName.GetTarotName(m_centerCardIndex);
-			var centerDirection = CardName.GetDirection(m_centerCardDirection);
-			var rightText = CardName.GetTarotName(m_rightCardIndex);
-			var rughtDirection = CardName.GetDirection(m_rightCardDirection);
-
 			m_genreText.text = genre;
-			m_leftText.text = string.Format("過去:{0}({1})", leftText, leftDirection);
-			m_centerText.text = string.Format("現在:{0}({1})", centerText, centerDirection);
-			m_rightText.text = string.Format("未来:{0}({1})", rightText, rughtDirection);
-
-			var input = string.Format(AI_SEND_MESSAGE,
-				genre,
-				leftText,
-				leftDirection,
-				centerText,
-				centerDirection,
-				rightText,
-				rughtDirection);
-
-			// 非同期処理
-			m_resultText.text = await m_presenter.SendMessageToChatGPT(input);
+			m_leftText.text = past;
+			m_centerText.text = now;
+			m_rightText.text = futer;
 		}
 
 		/// <summary>カードをフェードアウトさせる</summary>
 		async UniTask FadeOutCard(Card card)
 		{
 			await card.FadeOut();
-			if(!SelectedThreeCards())
-				m_blockTap.SetActive(false);
+			if(!m_presenter.SelectedThreeCards())
+				BlockTapActive(false);
 			card.gameObject.SetActive(false);
 		}
 
-		/// <summary>カードを３枚選んだか</summary>
-		bool SelectedThreeCards()
-		{
-			return m_leftCardIndex != -1 && m_centerCardIndex != -1 && m_rightCardIndex != -1;
-		}
-
+		/// <summary>カード削除</summary>
 		public void DestroyCards()
 		{
 			for (int i = 0; i < m_cardPos.childCount; i++)
@@ -305,17 +232,18 @@ namespace Tarot
 			}
 		}
 
+		/// <summary>カード生成</summary>
 		public GameObject InstantiateCard()
 		{
 			return Instantiate(m_cardObj, m_cardPos);
 		}
 
 		/// <summary>カード画像セット</summary>
-		void SetCardImage()
+		public void SetCardImage(int leftIndex, int centerIndex, int rightIndex, bool leftDir, bool centerDir, bool rightDir)
 		{
-			LoadCardImage(m_leftCardIndex, m_leftResultCard, m_leftCardDirection);
-			LoadCardImage(m_centerCardIndex, m_centerResultCard, m_centerCardDirection);
-			LoadCardImage(m_rightCardIndex, m_rightResultCard, m_rightCardDirection);
+			LoadCardImage(leftIndex, m_leftResultCard, leftDir);
+			LoadCardImage(centerIndex, m_centerResultCard, centerDir);
+			LoadCardImage(rightIndex, m_rightResultCard, rightDir);
 		}
 
 		/// <summary>カードのイメージをロード</summary>
@@ -344,7 +272,7 @@ namespace Tarot
 		public void Close()
 		{
 			SetButtonInteractable(false);
-			ChangeView();
+			m_presenter.ChangeView(Scene, m_cts.Token);
 
 			m_leftResultTransition.TransitionOut();
 			m_centerResultTransition.TransitionOut();
@@ -357,9 +285,9 @@ namespace Tarot
 			m_shareBtn.interactable = flg;
 		}
 
-		async void ChangeView()
+		public void BlockTapActive(bool flg)
 		{
-			await Scene.ChangeView(ViewName.Genre, 0, m_cts.Token);
+			m_blockTap.SetActive(flg);
 		}
 	}
 }
