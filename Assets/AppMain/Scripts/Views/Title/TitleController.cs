@@ -2,7 +2,7 @@
 
 namespace Tarot
 {
-	public class Title : MonoBehaviour
+	public class TitleController : MonoBehaviour
 	{
 		[SerializeField] TitleView m_view = null;
 		private void Awake()

@@ -2,7 +2,7 @@
 
 namespace Tarot
 {
-	public class TarotBase : MonoBehaviour
+	public class TarotController : MonoBehaviour
 	{
 		[SerializeField] TarotView m_view = null;
 

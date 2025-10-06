@@ -2,7 +2,7 @@
 
 namespace Tarot
 {
-	public class Genre : MonoBehaviour
+	public class GenreController : MonoBehaviour
 	{
 		[SerializeField] GenreView m_view = null;
 
