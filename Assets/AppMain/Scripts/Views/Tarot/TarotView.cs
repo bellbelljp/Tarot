@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -53,7 +52,6 @@ namespace Tarot
 		[SerializeField] ButtonEx m_shareBtn = null;
 		[SerializeField] ButtonEx m_startBtn = null;
 
-		CancellationTokenSource m_cts = new CancellationTokenSource();
 		TarotPresenter m_presenter = null;
 
 		public void SetPresenter(TarotPresenter presenter)
@@ -271,10 +269,12 @@ namespace Tarot
 			await m_presenter.ShareToX();
 		}
 
-		public void Close()
+		public async void Close()
 		{
 			SetButtonInteractable(false);
-			m_presenter.ChangeView(Scene, m_cts.Token);
+			await m_presenter.ChangeView(Scene);
+			m_presenter.CancelAll(); // 進行中の処理をキャンセル
+			m_presenter.Dispose();
 
 			m_leftResultTransition.TransitionOut();
 			m_centerResultTransition.TransitionOut();
