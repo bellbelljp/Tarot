@@ -13,6 +13,8 @@ namespace Tarot
 	public interface ITarotView
 	{
 		public void SetButtonInteractable(bool flg);
+		public void DestroyCards();
+		public GameObject InstantiateCard();
 	}
 
 	public class TarotView : ViewBase, ITarotView
@@ -56,8 +58,8 @@ namespace Tarot
 		const int CARD_NUM = 22;
 		//const string CARD_PATH = "Cards/{0:d2}";
 		CancellationTokenSource m_cts = new CancellationTokenSource();
-		float m_halfWidth = 0;
-		float m_halfHeight = 0;
+		//float m_halfWidth = 0;
+		//float m_halfHeight = 0;
 		int m_leftCardIndex = -1;
 		int m_centerCardIndex = -1;
 		int m_rightCardIndex = -1;
@@ -112,11 +114,11 @@ namespace Tarot
 
 			// 移動範囲
 			CanvasScaler canvasRect = Scene.GetComponent<CanvasScaler>();
-			m_halfWidth = canvasRect.referenceResolution.x / 2f - 300;
-			m_halfHeight = canvasRect.referenceResolution.y / 2f - 300;
+			m_presenter.SetMovingRange(canvasRect);
 
 			// カード作成
-			CreateCards();
+			m_presenter.CreateCards();
+			//CreateCards();
 		}
 
 		private void OnDisable()
@@ -127,17 +129,19 @@ namespace Tarot
 
 		public override void SetParam(int genre)
 		{
+			//FIXME
 			m_genre = genre;
+			m_presenter.SetGenre(genre);
 		}
 
 		/// <summary>スタートボタン押下</summary>
 		public void OnClickStartShaffle()
 		{
 			m_startBtn.interactable = false;
-			StartShaffle();
+			StartShaffle().Forget();
 		}
 
-		async void StartShaffle()
+		async UniTask StartShaffle()
 		{
 			List<UniTask> tasks = new List<UniTask>();
 
@@ -158,7 +162,12 @@ namespace Tarot
 			await UniTask.WhenAll(tasks);
 
 			// カードシャッフル
-			await ShuffleCards();
+			await m_presenter.ShuffleCards();
+
+			m_subExplainText.gameObject.SetActive(true);
+			await m_subExplainText.TransitionInWait();
+
+			m_blockTap.SetActive(false);
 		}
 
 		/// <summary>シャッフルしたカードをクリック</summary>
@@ -208,9 +217,10 @@ namespace Tarot
 		async void Result()
 		{
 			// 先にAIに送っておく
-			await SendChatGPT();
+			//await SendChatGPT();
 
 			List<UniTask> tasks = new List<UniTask>();
+			tasks.Add(SendChatGPT());
 			tasks.Add(m_subExplainText.TransitionOutWait());
 			tasks.Add(m_cardTransition.TransitionOutWait());
 			await UniTask.WhenAll(tasks);
@@ -283,8 +293,7 @@ namespace Tarot
 			return m_leftCardIndex != -1 && m_centerCardIndex != -1 && m_rightCardIndex != -1;
 		}
 
-		/// <summary>カード生成</summary>
-		void CreateCards()
+		public void DestroyCards()
 		{
 			for (int i = 0; i < m_cardPos.childCount; i++)
 			{
@@ -294,63 +303,11 @@ namespace Tarot
 
 				Destroy(child.gameObject);
 			}
-
-			m_cardList = new List<GameObject>();
-			// カード生成
-			for (int i = 0; i < CARD_NUM; i++)
-			{
-				var card = Instantiate(m_cardObj, m_cardPos);
-				card.GetComponent<Card>().CardIndex = i;
-
-				float x = UnityEngine.Random.Range(-m_halfWidth, m_halfWidth);
-				float y = UnityEngine.Random.Range(-m_halfHeight, m_halfHeight);
-
-				// Z軸のランダムな角度（-180〜180度）
-				float randomZ = UnityEngine.Random.Range(-180f, 180f);
-				Quaternion randomRotation = Quaternion.Euler(0, 0, randomZ);
-
-				var rect = card.GetComponent<RectTransform>();
-				card.GetComponent<RectTransform>().SetLocalPositionAndRotation(new Vector3(x, y, 1), randomRotation);
-				card.SetActive(true);
-				m_cardList.Add(card);
-			}
 		}
 
-		/// <summary>カードをシャッフル</summary>
-		async UniTask ShuffleCards()
+		public GameObject InstantiateCard()
 		{
-			List<UniTask> tasks = new List<UniTask>();
-
-			// カード移動
-			for (int i = 0; i < m_cardList.Count; i++)
-			{
-				var card = m_cardList[i];
-				card.SetActive(true);
-				// 終点を安全な範囲で設定
-				float x = UnityEngine.Random.Range(-m_halfWidth, m_halfWidth);
-				float y = UnityEngine.Random.Range(-m_halfHeight, m_halfHeight);
-				Vector3 endPos = new Vector3(x, y, 0);
-
-				// 中継点も安全範囲内でズレを出す
-				Vector3 startPos = card.transform.localPosition;
-				Vector3 curve1 = startPos + new Vector3(UnityEngine.Random.Range(-80f, 80f), UnityEngine.Random.Range(-80f, 80f));
-				Vector3 curve2 = endPos + new Vector3(UnityEngine.Random.Range(-80f, 80f), UnityEngine.Random.Range(-80f, 80f));
-
-				var tween = card.transform
-					.DOLocalPath(new Vector3[] { curve1, curve2, endPos }, 1.5f, PathType.CatmullRom)
-					.SetEase(Ease.OutSine)
-					.ToUniTask();
-
-				tasks.Add(tween);
-			}
-			await UniTask.WhenAll(tasks);
-
-			tasks = new List<UniTask>();
-			m_subExplainText.gameObject.SetActive(true);
-			tasks.Add(m_subExplainText.TransitionInWait());
-			await UniTask.WhenAll(tasks);
-
-			m_blockTap.SetActive(false);
+			return Instantiate(m_cardObj, m_cardPos);
 		}
 
 		/// <summary>カード画像セット</summary>
