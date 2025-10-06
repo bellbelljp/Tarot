@@ -59,7 +59,6 @@ namespace Tarot
 		public void SetPresenter(TarotPresenter presenter)
 		{
 			m_presenter = presenter;
-			m_presenter.Init();
 		}
 
 		async void OnEnable()
@@ -84,6 +83,9 @@ namespace Tarot
 			// スタートボタン表示
 			m_startBtnTransition.gameObject.SetActive(true);
 			await m_startBtnTransition.TransitionInWait();
+
+			// プレゼンター初期化
+			m_presenter.Init();
 
 			// 移動範囲
 			CanvasScaler canvasRect = Scene.GetComponent<CanvasScaler>();

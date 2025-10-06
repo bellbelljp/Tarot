@@ -6,8 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
-using static Tarot.csdef;
-using static UnityEditor.PlayerSettings;
 
 namespace Tarot
 {

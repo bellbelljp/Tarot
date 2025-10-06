@@ -32,9 +32,12 @@ namespace Tarot
 
 		public void Init()
 		{
-			m_leftCardIndex =
-			m_centerCardIndex =
+			m_leftCardIndex = -1;
+			m_centerCardIndex = -1;
 			m_rightCardIndex = -1;
+			m_leftCardDirection = true;
+			m_centerCardDirection = true;
+			m_rightCardDirection = true;
 		}
 
 		public Sprite LoadCardImage(int value)
